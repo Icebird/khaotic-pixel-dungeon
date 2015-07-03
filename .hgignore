@@ -1,0 +1,6 @@
+syntax: glob
+
+out
+gen
+.idea
+*.iml
