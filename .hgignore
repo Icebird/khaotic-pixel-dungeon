@@ -2,5 +2,6 @@ syntax: glob
 
 out
 gen
-.idea
-*.iml
+.idea\copyright
+.idea\gen
+.idea\workspace.xml
