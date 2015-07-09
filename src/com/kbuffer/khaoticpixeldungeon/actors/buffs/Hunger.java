@@ -37,7 +37,13 @@ import com.watabou.utils.Random;
 
 public class Hunger extends Buff implements Hero.Doom {
 
-	private static final float STEP	= 10f;
+	// KPD - reducing hunger progression to 60% of normal
+	// Original:
+	// private static final float STEP	= 10f;
+
+	private static final float STEP	= 6f;
+
+	// end KPD
 
 	public static final float HUNGRY	= 260f;
 	public static final float STARVING	= 360f;

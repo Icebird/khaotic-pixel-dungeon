@@ -44,6 +44,7 @@ import com.watabou.noosa.particles.Emitter;
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
+import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -75,10 +76,16 @@ public class Item implements Bundlable {
 	
 	public int level = 0;
 	public boolean levelKnown = false;
-	
+
+	// KPD - Item tracks whether it has been picked up before
+
+	public boolean firstPickup = true;
+
+	// end KPD
+
 	public boolean cursed;
 	public boolean cursedKnown;
-	
+
 	// Unique items persist through revival
 	public boolean unique = false;
 
@@ -101,7 +108,19 @@ public class Item implements Bundlable {
 	
 	public boolean doPickUp( Hero hero ) {
 		if (collect( hero.belongings.backpack )) {
-			
+
+			// KPD - provide some small chance the item is recognized
+			// possibly increased chance for certain classes/badges
+
+			if( !isIdentified() && firstPickup && Random.Float() > 0.02f )
+			{
+				this.identify();
+				GLog.p( "You recognize this item!" );
+			}
+			firstPickup = false;
+
+			// end KPD
+
 			GameScene.pickUp( this );
 			Sample.INSTANCE.play( Assets.SND_ITEM );
 			hero.spendAndNext( TIME_TO_PICK_UP );
