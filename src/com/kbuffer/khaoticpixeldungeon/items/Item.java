@@ -112,7 +112,7 @@ public class Item implements Bundlable {
 			// KPD - provide some small chance the item is recognized
 			// possibly increased chance for certain classes/badges
 
-			if( !isIdentified() && firstPickup && Random.Float() > 0.02f )
+			if( !isIdentified() && firstPickup && Random.Float() < 0.02f )
 			{
 				this.identify();
 				GLog.p( "You recognize this item!" );
