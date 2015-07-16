@@ -641,7 +641,7 @@ public class Hero extends Char {
 								!item.cursed &&
 								!(belongings.misc1 instanceof RingOfForce) &&
 								!(belongings.misc2 instanceof RingOfForce) &&
-								((Weapon) item).STR <= STR  ) {
+								((Weapon) item).STR <= this.STR()  ) {
 							((Weapon) item).doEquip( this );
 						}
 						// end KPD
