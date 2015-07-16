@@ -87,6 +87,7 @@ import com.kbuffer.khaoticpixeldungeon.items.scrolls.Scroll;
 import com.kbuffer.khaoticpixeldungeon.items.scrolls.ScrollOfMagicMapping;
 import com.kbuffer.khaoticpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.kbuffer.khaoticpixeldungeon.items.scrolls.ScrollOfMagicalInfusion;
+import com.kbuffer.khaoticpixeldungeon.items.weapon.Weapon;
 import com.kbuffer.khaoticpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.kbuffer.khaoticpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.kbuffer.khaoticpixeldungeon.levels.Level;
@@ -631,6 +632,20 @@ public class Hero extends Char {
 						boolean important =
 								((item instanceof ScrollOfUpgrade || item instanceof ScrollOfMagicalInfusion) && ((Scroll)item).isKnown()) ||
 								((item instanceof PotionOfStrength || item instanceof PotionOfMight) && ((Potion)item).isKnown());
+
+
+						// KPD - Equip a known weapon if empty-handed, strong enough, not using Ring of Force
+						if (belongings.weapon == null &&
+								item instanceof Weapon &&
+								item.isIdentified() &&
+								!item.cursed &&
+								!(belongings.misc1 instanceof RingOfForce) &&
+								!(belongings.misc2 instanceof RingOfForce) &&
+								((Weapon) item).STR <= STR  ) {
+							((Weapon) item).doEquip( this );
+						}
+						// end KPD
+
 						if (important) {
 							GLog.p( TXT_YOU_NOW_HAVE, item.name() );
 						} else {
