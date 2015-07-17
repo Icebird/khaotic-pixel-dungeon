@@ -47,9 +47,15 @@ public class KindOfWeapon extends EquipableItem {
 	public boolean isEquipped( Hero hero ) {
 		return hero.belongings.weapon == this;
 	}
-	
+
+	// KPD - Added ability to equip without spending a turn using an overload
 	@Override
 	public boolean doEquip( Hero hero ) {
+		return doEquip( hero, true );
+	}
+
+	public boolean doEquip( Hero hero, boolean spendTime ) {
+	// end KPD
 
 		detachAll( hero.belongings.backpack );
 		
@@ -65,8 +71,12 @@ public class KindOfWeapon extends EquipableItem {
 				equipCursed( hero );
 				GLog.n( TXT_EQUIP_CURSED, name() );
 			}
-			
-			hero.spendAndNext( TIME_TO_EQUIP );
+
+			// KPD - Added ability to equip without spending a turn
+			if( spendTime )
+				hero.spendAndNext( TIME_TO_EQUIP );
+			// end KPD
+
 			return true;
 			
 		} else {
