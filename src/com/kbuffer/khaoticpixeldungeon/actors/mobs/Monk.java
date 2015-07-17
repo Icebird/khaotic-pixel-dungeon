@@ -38,7 +38,12 @@ import com.watabou.utils.Random;
 public class Monk extends Mob {
 
 	public static final String TXT_DISARM	= "%s has knocked the %s from your hands!";
-	
+
+	// KPD - Cap disarms at once per four attacks
+	private static final int DISARM_COOLDOWN = 6;
+	private int attackCount = DISARM_COOLDOWN;
+	// end KPD
+
 	{
 		name = "dwarf monk";
 		spriteClass = MonkSprite.class;
@@ -87,8 +92,12 @@ public class Monk extends Mob {
 	
 	@Override
 	public int attackProc( Char enemy, int damage ) {
-		
-		if (Random.Int( 6 ) == 0 && enemy == Dungeon.hero) {
+
+		// KPD - Implement 3 attack cooldown on disarm
+		attackCount++;
+		if (Random.Int( 6 ) == 0 && enemy == Dungeon.hero && attackCount >= DISARM_COOLDOWN) {
+			attackCount = 0;
+		// end KPD
 			
 			Hero hero = Dungeon.hero;
 			KindOfWeapon weapon = hero.belongings.weapon;
