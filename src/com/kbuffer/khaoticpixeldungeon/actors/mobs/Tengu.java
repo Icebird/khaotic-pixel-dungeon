@@ -80,28 +80,34 @@ public class Tengu extends Mob {
 	
 	@Override
 	public void die( Object cause ) {
-		
-		Badges.Badge badgeToCheck = null;
-		switch (Dungeon.hero.heroClass) {
-		case WARRIOR:
-			badgeToCheck = Badge.MASTERY_WARRIOR;
-			break;
-		case MAGE:
-			badgeToCheck = Badge.MASTERY_MAGE;
-			break;
-		case ROGUE:
-			badgeToCheck = Badge.MASTERY_ROGUE;
-			break;
-		case HUNTRESS:
-			badgeToCheck = Badge.MASTERY_HUNTRESS;
-			break;
+
+		// KPD - Infinite mode
+		// Don't do this stuff later on
+		if( Dungeon.depth < 26 ) {
+			Badges.Badge badgeToCheck = null;
+			switch (Dungeon.hero.heroClass) {
+				case WARRIOR:
+					badgeToCheck = Badge.MASTERY_WARRIOR;
+					break;
+				case MAGE:
+					badgeToCheck = Badge.MASTERY_MAGE;
+					break;
+				case ROGUE:
+					badgeToCheck = Badge.MASTERY_ROGUE;
+					break;
+				case HUNTRESS:
+					badgeToCheck = Badge.MASTERY_HUNTRESS;
+					break;
+			}
+			if (!Badges.isUnlocked(badgeToCheck)) {
+				Dungeon.level.drop(new TomeOfMastery(), pos).sprite.drop();
+			}
+
+			GameScene.bossSlain();
+			Dungeon.level.drop(new SkeletonKey(Dungeon.depth), pos).sprite.drop();
 		}
-		if (!Badges.isUnlocked( badgeToCheck )) {
-			Dungeon.level.drop( new TomeOfMastery(), pos ).sprite.drop();
-		}
-		
-		GameScene.bossSlain();
-		Dungeon.level.drop( new SkeletonKey( Dungeon.depth ), pos ).sprite.drop();
+		// end kPD
+
 		super.die( cause );
 		
 		Badges.validateBossSlain();
@@ -144,18 +150,23 @@ public class Tengu extends Mob {
 	private void jump() {
 		timeToJump = JUMP_DELAY;
 		
-		for (int i=0; i < 4; i++) {
-			int trapPos;
-			do {
-				trapPos = Random.Int( Level.LENGTH );
-			} while (!Level.fieldOfView[trapPos] || !Level.passable[trapPos]);
-			
-			if (Dungeon.level.map[trapPos] == Terrain.INACTIVE_TRAP) {
-				Dungeon.level.setTrap( new PoisonTrap().reveal(), trapPos );
-				Level.set( trapPos, Terrain.TRAP );
-				ScrollOfMagicMapping.discover( trapPos );
+		// KPD - Infinite mode
+		// Tengu isn't going to have his trap grid handy so just skip this
+		if( Dungeon.depth < 26 ) {
+			for (int i = 0; i < 4; i++) {
+				int trapPos;
+				do {
+					trapPos = Random.Int(Level.LENGTH);
+				} while (!Level.fieldOfView[trapPos] || !Level.passable[trapPos]);
+
+				if (Dungeon.level.map[trapPos] == Terrain.INACTIVE_TRAP) {
+					Dungeon.level.setTrap(new PoisonTrap().reveal(), trapPos);
+					Level.set(trapPos, Terrain.TRAP);
+					ScrollOfMagicMapping.discover(trapPos);
+				}
 			}
 		}
+		// end KPD
 		
 		int newPos;
 		do {

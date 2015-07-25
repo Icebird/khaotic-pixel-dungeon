@@ -158,9 +158,15 @@ public class Yog extends Mob {
 				mob.die( cause );
 			}
 		}
-		
-		GameScene.bossSlain();
-		Dungeon.level.drop( new SkeletonKey( Dungeon.depth ), pos ).sprite.drop();
+
+		// KPD - Infinite mode
+		// Don't do this stuff later on
+		if( Dungeon.depth < 26 ) {
+			GameScene.bossSlain();
+			Dungeon.level.drop(new SkeletonKey(Dungeon.depth), pos).sprite.drop();
+		}
+		// end KPD
+
 		super.die( cause );
 		
 		yell( "..." );

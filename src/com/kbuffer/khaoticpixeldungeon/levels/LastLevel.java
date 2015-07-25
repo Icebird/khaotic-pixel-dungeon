@@ -55,13 +55,20 @@ public class LastLevel extends Level {
 	@Override
 	public void create() {
 		super.create();
+
+		// KPD - Infinite mode
+		// Allow jumping on Amulet level.
+		/*
 		for (int i=0; i < LENGTH; i++) {
 			int flags = Terrain.flags[map[i]];
+
 			if ((flags & Terrain.PIT) != 0){
 				passable[i] = avoid[i] = false;
 				solid[i] = true;
 			}
 		}
+		*/
+		// end KPD
 	}
 
 	@Override
@@ -168,6 +175,10 @@ public class LastLevel extends Level {
 	@Override
 	public void restoreFromBundle(Bundle bundle) {
 		super.restoreFromBundle(bundle);
+
+		// KPD - Infinite mode
+		// Allow jumping on Amulet level.
+		/*
 		for (int i=0; i < LENGTH; i++) {
 			int flags = Terrain.flags[map[i]];
 			if ((flags & Terrain.PIT) != 0){
@@ -175,5 +186,8 @@ public class LastLevel extends Level {
 				solid[i] = true;
 			}
 		}
+		*/
+		// end KPD
+
 	}
 }

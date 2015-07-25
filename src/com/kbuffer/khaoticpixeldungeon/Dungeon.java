@@ -135,6 +135,11 @@ public class Dungeon {
 
 	public static int version;
 	
+	// KPD - Infinite mode
+	// Depth at which Yog begins spawning his fists
+	public static final int FistDepth = 50;
+	// end KPD
+
 	public static void init() {
 
 		version = Game.versionCode;
@@ -259,8 +264,27 @@ public class Dungeon {
 			level = new LastLevel();
 			break;
 		default:
-			level = new DeadEndLevel();
-			Statistics.deepestFloor--;
+
+			// KPD - Infinite mode
+			// Pick a level tileset at random
+			switch( Random.Int(5) ) {
+				case 0:
+					level = new SewerLevel();
+					break;
+				case 1:
+					level = new PrisonLevel();
+					break;
+				case 2:
+					level = new CavesLevel();
+					break;
+				case 3:
+					level = new CityLevel();
+					break;
+				default:
+					level = new HallsLevel();
+					break;
+			}
+			// end KPD
 		}
 		
 		level.create();
@@ -281,7 +305,12 @@ public class Dungeon {
 	}
 	
 	public static boolean shopOnLevel() {
-		return depth == 6 || depth == 11 || depth == 16;
+
+		// KPD - Infinite mode
+		// 60% chance to get a shop
+		return depth == 6 || depth == 11 || depth == 16 || depth > 26 && Random.Float() < 0.6f;
+		// end KPD
+		
 	}
 	
 	public static boolean bossLevel() {
@@ -354,7 +383,14 @@ public class Dungeon {
 				return Random.Float() < (float)(qNumber - number) / (qDepth - depth + 1);
 			}
 		}
-		
+
+		// KPD - Infinite mode
+		// Allow more of the limited drop later on
+		if( Random.Float() < 0.8f )
+			return true;
+		else
+		// end KPD
+
 		return false;
 	}
 	

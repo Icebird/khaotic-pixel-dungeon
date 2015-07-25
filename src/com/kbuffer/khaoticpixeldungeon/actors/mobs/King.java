@@ -72,7 +72,7 @@ public class King extends Mob {
 	
 	@Override
 	public void storeInBundle( Bundle bundle ) {
-		super.storeInBundle( bundle );
+		super.storeInBundle(bundle);
 		bundle.put( PEDESTAL, nextPedestal );
 	}
 	
@@ -104,22 +104,37 @@ public class King extends Mob {
 	
 	@Override
 	protected boolean getCloser( int target ) {
-		return canTryToSummon() ?
+
+		// KPD - Infinite mode
+		// Allow King to summon anywhere
+		return canTryToSummon() && Dungeon.depth < 26 ?
+		// end KPD
+
 			super.getCloser( CityBossLevel.pedestal( nextPedestal ) ) :
-			super.getCloser( target );
+			super.getCloser(target);
 	}
 	
 	@Override
 	protected boolean canAttack( Char enemy ) {
 		return canTryToSummon() ?
-			pos == CityBossLevel.pedestal( nextPedestal ) :
+
+			// KPD - Infinite mode
+			// Allow King to summon anywhere
+			pos == CityBossLevel.pedestal( nextPedestal ) || Dungeon.depth > 26 :
+			// end KPD
+
 			Level.adjacent( pos, enemy.pos );
 	}
 	
 	private boolean canTryToSummon() {
 		if (Undead.count < maxArmySize()) {
 			Char ch = Actor.findChar( CityBossLevel.pedestal( nextPedestal ) );
-			return ch == this || ch == null;
+
+			// KPD - Infinite mode
+			// Allow King to summon anywhere
+			return ch == this || ch == null || Dungeon.depth > 26;
+			// end KPD
+
 		} else {
 			return false;
 		}
@@ -127,7 +142,13 @@ public class King extends Mob {
 	
 	@Override
 	public boolean attack( Char enemy ) {
-		if (canTryToSummon() && pos == CityBossLevel.pedestal( nextPedestal )) {
+
+		// KPD - Infinite mode
+		// Allow King to summon anywhere
+		//if (canTryToSummon() && pos == CityBossLevel.pedestal( nextPedestal )) {
+		if( canTryToSummon() && canAttack( enemy ) ) {
+		// end KPD
+
 			summon();
 			return true;
 		} else {
@@ -141,10 +162,15 @@ public class King extends Mob {
 	@Override
 	public void die( Object cause ) {
 
-		GameScene.bossSlain();
-		Dungeon.level.drop( new ArmorKit(), pos ).sprite.drop();
-		Dungeon.level.drop( new SkeletonKey( Dungeon.depth ), pos ).sprite.drop();
-		
+		// KPD - Infinite mode
+		// Don't do this stuff later on
+		if( Dungeon.depth < 26 ) {
+			GameScene.bossSlain();
+			Dungeon.level.drop(new ArmorKit(), pos).sprite.drop();
+			Dungeon.level.drop(new SkeletonKey(Dungeon.depth), pos).sprite.drop();
+		}
+		// end KPD
+
 		super.die( cause );
 		
 		Badges.validateBossSlain();

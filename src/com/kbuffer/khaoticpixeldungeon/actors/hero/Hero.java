@@ -1077,9 +1077,12 @@ public class Hero extends Char {
 		} else if (Dungeon.level.map[cell] == Terrain.LOCKED_DOOR || Dungeon.level.map[cell] == Terrain.LOCKED_EXIT) {
 			
 			curAction = new HeroAction.Unlock( cell );
-			
-		} else if (cell == Dungeon.level.exit && Dungeon.depth < 26) {
-			
+
+			// KPD - Infinite mode
+			// Remove depth check
+		} else if (cell == Dungeon.level.exit) {
+			// end KPD
+
 			curAction = new HeroAction.Descend( cell );
 			
 		} else if (cell == Dungeon.level.entrance) {

@@ -65,7 +65,13 @@ public class Bestiary {
 		
 		float[] chances;
 		Class<?>[] classes;
-		
+
+		// KPD - Infinite mode
+		// Select random monsters for every spawn
+		if( depth > 25 )
+			depth = 1 + Random.Int(25);
+		// end KPD
+
 		switch (depth) {
 		case 1:
 			chances = new float[]{ 1 };

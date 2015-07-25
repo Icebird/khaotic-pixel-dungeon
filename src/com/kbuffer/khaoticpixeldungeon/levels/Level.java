@@ -39,6 +39,7 @@ import com.kbuffer.khaoticpixeldungeon.actors.hero.Hero;
 import com.kbuffer.khaoticpixeldungeon.actors.hero.HeroClass;
 import com.kbuffer.khaoticpixeldungeon.actors.mobs.Bestiary;
 import com.kbuffer.khaoticpixeldungeon.actors.mobs.Mob;
+import com.kbuffer.khaoticpixeldungeon.actors.mobs.Yog;
 import com.kbuffer.khaoticpixeldungeon.effects.particles.FlowParticle;
 import com.kbuffer.khaoticpixeldungeon.effects.particles.WindParticle;
 import com.kbuffer.khaoticpixeldungeon.items.Dewdrop;
@@ -498,6 +499,13 @@ public abstract class Level implements Bundlable {
 					mob.pos = randomRespawnCell();
 					if (Dungeon.hero.isAlive() && mob.pos != -1) {
 						GameScene.add( mob );
+
+						// KPD - Infinite mode
+						// Spawn fists later on
+						if( mob instanceof Yog && Dungeon.depth >= Dungeon.FistDepth )
+							((Yog) mob).spawnFists();
+						// end KPD
+
 						if (Statistics.amuletObtained) {
 							mob.beckon( Dungeon.hero.pos );
 						}
