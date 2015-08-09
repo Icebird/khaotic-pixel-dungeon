@@ -55,7 +55,7 @@ public class TrapSprite extends Image {
 
 		// KPD - Infinite mode
 		// Make trap sprite index loop back after level 26 to prevent crash bug at level 41
-		reset( trap.image + ((((Dungeon.depth-1) % 26) / 5) * 8) );
+		reset( trap.image + ((((Dungeon.depth-1) % 25) / 5) * 8) );
 		// end KPD
 
 		alpha( 1f );

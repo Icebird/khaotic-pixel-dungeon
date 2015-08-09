@@ -39,9 +39,13 @@ public class HallsLevel extends RegularLevel {
 
 	{
 		minRoomSize = 6;
-		
-		viewDistance = Math.max( 25 - Dungeon.depth, 1 );
-		
+
+		// KPD - Infinite mode
+		// Use default view distance
+		if( Dungeon.depth <= 26 )
+			viewDistance = Math.max( 25 - Dungeon.depth, 1 );
+		// end KPD
+
 		color1 = 0x801500;
 		color2 = 0xa68521;
 	}

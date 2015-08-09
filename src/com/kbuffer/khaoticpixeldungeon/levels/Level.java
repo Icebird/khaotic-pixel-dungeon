@@ -506,7 +506,11 @@ public abstract class Level implements Bundlable {
 							((Yog) mob).spawnFists();
 						// end KPD
 
-						if (Statistics.amuletObtained) {
+						// KPD - Infinite mode
+						// Only beckon mobs when going back upstairs, not when exploring deeper
+						if (Statistics.amuletObtained && Statistics.deepestFloor > Dungeon.depth ) {
+						// end KPD
+
 							mob.beckon( Dungeon.hero.pos );
 						}
 					}

@@ -166,10 +166,11 @@ public class King extends Mob {
 		// Don't do this stuff later on
 		if( Dungeon.depth < 26 ) {
 			GameScene.bossSlain();
-			Dungeon.level.drop(new ArmorKit(), pos).sprite.drop();
 			Dungeon.level.drop(new SkeletonKey(Dungeon.depth), pos).sprite.drop();
 		}
 		// end KPD
+
+		Dungeon.level.drop(new ArmorKit(), pos).sprite.drop();
 
 		super.die( cause );
 		

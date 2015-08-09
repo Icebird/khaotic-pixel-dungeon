@@ -307,8 +307,8 @@ public class Dungeon {
 	public static boolean shopOnLevel() {
 
 		// KPD - Infinite mode
-		// 60% chance to get a shop
-		return depth == 6 || depth == 11 || depth == 16 || depth > 26 && Random.Float() < 0.6f;
+		// Shop every 3rd level
+		return depth == 6 || depth == 11 || depth == 16 || depth > 26 && depth % 3 == 0;
 		// end KPD
 		
 	}
